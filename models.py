@@ -3,9 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-def connect_db(app):
-    db.app = app
-    db.init_app(app)
+Default_cupcake = "https://tinyurl.com/demo-cupcake"
 
 class Cupcake(db.Model):
     """Cupcake information"""
@@ -27,4 +25,14 @@ class Cupcake(db.Model):
 
     image = db.Column(db.Text,
                       nullable=False,
-                      default="https://tinyurl.com/demo-cupcake")
+                      default=Default_cupcake)
+    
+    def serialize_cupcake(self):
+        """turns a sqlalchemy obj to dictionary"""
+        return {
+            "id" : self.id,
+            "flavor" : self.flavor,
+            "size" : self.size,
+            "rating" : self.rating,
+            "image" : self.image
+        }
